@@ -3,7 +3,7 @@
 This directory contains scripts used for aligning short reads to the pangenome
 and genotyping the individuals according to these alignments.
 
-The scripts are numbered in order: `1-giraffe.sh`, `2-surject.sh`,
+The per-sample scripts are numbered in order: `1-giraffe.sh`, `2-surject.sh`,
 `3-genotype.sh`. Each must be run on each library, with two arguments: library
 ID and number of threads. For example, to run the whole pipeline on sample
 #47 with 10 threads:
@@ -25,9 +25,17 @@ in parallel, but the best way to do that will depend on your system.
 To do linear alignment instead of pangenome alignment (for comparison),
 substitute `1-minimap.sh` for `1-giraffe.sh`.
 
+Finally, to join all the per-sample gVCFs into a single gVCF, and then do joint
+genotyping to get the final VCF, run
+
+```bash
+./4-joint-genotyping.sh
+```
+
 ## Versions
 We used the following software versions in this pipeline:
 * vg v1.47.0 (binary from github release)
 * samtools v1.17 with htslib 1.17 (compiled from github source release)
 * elprep v5.1.2 (binary from github release)
 * minimap2 v2.26 (binary from github release)
+* GATK v4.4.0.0 (executable from github release zip file)

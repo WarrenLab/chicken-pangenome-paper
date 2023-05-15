@@ -14,3 +14,5 @@ elprep sfm \
     --haplotypecaller out/vcf/${library_id}.gvcf.gz \
     --intermediate-files-output-type sam \
     --tmp-path $SCRATCH
+
+gatk IndexFeatureFile -I $scratch/out/vcf/${library_id}.gvcf.gz
