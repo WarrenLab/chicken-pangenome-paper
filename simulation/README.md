@@ -27,3 +27,7 @@ So, for example, to run the whole pipeline with 10 threads, run
 ./minimap.sh 10
 ./giraffe.sh 10
 ```
+
+# Versions
+* vg v1.47.0
+* minimap v2.26
