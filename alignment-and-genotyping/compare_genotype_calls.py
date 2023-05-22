@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
+import gzip
 import re
-from typing import IO, Iterable
+from typing import Iterable
 
 
 def parse_args():
@@ -13,8 +14,8 @@ def parse_args():
     return parser.parse_args()
 
 
-def parse_vcf(vcf: IO) -> Iterable[float]:
-    for line in vcf:
+def parse_vcf(vcf_path: str) -> Iterable[float]:
+    for line in gzip.open(vcf_path, "rt"):
         if line.startswith("##"):
             pass
         elif line.startswith("#"):
@@ -51,8 +52,8 @@ def calc_concordance(sample_table: list[tuple[int, int]], line: str) -> float:
 
         if not (giraffe_call == (".", ".") and minimap_call == (".", ".")):
             num_calls += 1
-        if giraffe_call == minimap_call:
-            num_agreements += 1
+            if giraffe_call == minimap_call:
+                num_agreements += 1
 
     if num_calls == 0:
         return -1
