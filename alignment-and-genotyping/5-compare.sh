@@ -27,3 +27,10 @@ echo "Common SNPS: $(bcftools view --threads $SLURM_CPUS_PER_TASK -i 'QUAL>=10' 
     -H -v snps merged.vcf.gz | wc -l)"
 echo "Common SNPS: $(bcftools view --threads $SLURM_CPUS_PER_TASK -i 'QUAL>=10' \
     -H -v indels merged.vcf.gz | wc -l)"
+
+bcftools view -i 'QUAL>=10' -v snps merged.vcf.gz \
+    | python compare_genotype_calls.py \
+    > snp_concordances.txt
+bcftools view -i 'QUAL>=10' -v indels merged.vcf.gz \
+    | python compare_genotype_calls.py \
+    > indel_concordances.txt
