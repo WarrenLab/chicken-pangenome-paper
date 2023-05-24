@@ -25,14 +25,20 @@ in parallel, but the best way to do that will depend on your system.
 To do linear alignment instead of pangenome alignment (for comparison),
 substitute `1-minimap.sh` for `1-giraffe.sh`.
 
-Finally, to join all the per-sample gVCFs into a single gVCF, and then do joint
+To join all the per-sample gVCFs into a single gVCF, and then do joint
 genotyping to get the final VCF, run
 
 ```bash
 ./4-joint-genotyping.sh
 ```
 
+Finally, to compare the output of the minimap vs. giraffe pipelines, run
+```bash
+./5-compare.sh
+```
+
 ## Versions
+
 We used the following software versions in this pipeline:
 * vg v1.47.0 (binary from github release)
 * samtools v1.17 with htslib 1.17 (compiled from github source release)
