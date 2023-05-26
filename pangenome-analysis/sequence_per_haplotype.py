@@ -159,9 +159,11 @@ def parse_gfa(gfa_path: str) -> Iterable[Union[Segment, Walk]]:
 def main():
     args = parse_args()
 
+    print("Reading graph...", file=stderr)
     graph_info = build_graphinfo(args.gfa)
 
     if args.first_haplotype:
+        print(f"Removing sample {args.first_haplotype} from graph...", file=stderr)
         graph_info.remove_sample(args.first_haplotype)
 
     i = 0
