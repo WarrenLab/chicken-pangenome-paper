@@ -106,7 +106,7 @@ class GraphInfo:
         unique_lengths: list[tuple[str, int]] = []
         for sample, nodes in self.sample_node_sets.items():
             unique_lengths.append((sample, sum(self.node_lengths[n] for n in nodes)))
-            print("\t".join(map(str, [sample, nodes, unique_lengths[-1][1]])))
+            print("\t".join(map(str, [sample, unique_lengths[-1][1]])), file=stderr)
         return max(unique_lengths, key=lambda t: t[1])
 
     def empty(self) -> bool:
