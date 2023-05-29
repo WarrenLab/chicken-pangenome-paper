@@ -164,6 +164,10 @@ def main():
 
     if args.first_haplotype:
         print(f"Removing sample {args.first_haplotype} from graph...", file=stderr)
+        node_length_sum = 0
+        for node in graph_info.sample_node_sets[args.first_haplotype]:
+            node_length_sum += graph_info.node_lengths[node]
+        print(f"{args.first_haplotype}\t{node_length_sum}")
         graph_info.remove_sample(args.first_haplotype)
 
     i = 0
