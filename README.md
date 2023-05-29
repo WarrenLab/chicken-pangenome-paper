@@ -10,6 +10,8 @@ own README:
   pangenome
 * `pangenome-creation`: scripts used to create both the minigraph-cactus and
   PGGB pangenomes
+* `pangenome-analysis`: scripts for doing some calculations about the graph and
+  its structure
 * `alignment-and-genotyping`: scripts used to align reads to the pangenome and
   genotype based on those alignments
 * `simulation`: scripts used to create simulated reads, align them to the
