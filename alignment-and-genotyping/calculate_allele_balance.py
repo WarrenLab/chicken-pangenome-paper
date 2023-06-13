@@ -49,6 +49,13 @@ def parse_base_field(base_field: str) -> float:
 
 
 def parse_pileup(infile: IO):
+    """Parse a pileup file and calculate reference frequencies
+
+    Parse a pileup line by line. For every putative heterozygous site,
+    defined here as a site with coverage of at least 10 where more than
+    25% of the reads contain the minor allele, yield the reference
+    allele frequency.
+    """
     for line in infile:
         fields = line.strip().split("\t")
         depth = int(fields[3])
