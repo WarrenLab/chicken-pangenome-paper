@@ -6,7 +6,7 @@ cpus=$2
 elprep sfm \
     out/bam/${library_id}.bam \
     out/bam/${library_id}.elprep.bam \
-    --nr-of-threads $cpus
+    --nr-of-threads $cpus \
     --mark-duplicates \
     --mark-optical-duplicates out/metrics/${library_id}.metrics.txt \
     --sorting-order coordinate \
@@ -15,4 +15,4 @@ elprep sfm \
     --intermediate-files-output-type sam \
     --tmp-path $SCRATCH
 
-gatk IndexFeatureFile -I $scratch/out/vcf/${library_id}.gvcf.gz
+gatk IndexFeatureFile -I $SCRATCH/out/vcf/${library_id}.gvcf.gz
