@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
   char *quals = malloc(MAX_PILEUP_SIZE * sizeof(char));
 
   while (scanf("%s\t%d\t%c\t%d\t%s\t%s", seqName, &position, &base, &coverage,
-               pileup, quals)) {
+               pileup, quals) != EOF) {
     if (coverage >= MIN_COVERAGE && coverage <= MAX_COVERAGE) {
       refFreq = calcRefFreq(pileup);
       if (refFreq > 0.0) {
