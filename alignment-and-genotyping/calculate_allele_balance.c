@@ -5,15 +5,18 @@
 #define MAX_COVERAGE 100
 #define MAX_SEQNAME_LENGTH 200
 #define MAX_PILEUP_SIZE 8001
+#define min(a, b) a < b ? a : b
 
 float calcRefFreq(char *pileup) {
-  int i = 0;
+  float minor_allele_count;
+  char c;
+
   int ref_bases = 0;
   int nonref_A = 0;
   int nonref_C = 0;
   int nonref_G = 0;
   int nonref_T = 0;
-  char c;
+  int i = 0;
 
   for (c = pileup[0]; c != '\0'; c = pileup[++i]) {
     if (c == '.' || c == ',') {
@@ -54,9 +57,9 @@ float calcRefFreq(char *pileup) {
     max_nonref = nonref_T;
   }
 
+  minor_allele_count = min(max_nonref, ref_bases);
   if ((max_nonref + ref_bases) * 1.0 / total_bases > 0.9 &&
-      (max_nonref * 1.0 / (ref_bases + max_nonref) > 0.25 ||
-       ref_bases * 1.0 / (ref_bases + max_nonref) > 0.25)) {
+      minor_allele_count / (ref_bases + max_nonref) > 0.25) {
     return max_nonref * 1.0 / (ref_bases + max_nonref);
   }
 
@@ -76,8 +79,9 @@ int main(int argc, char *argv[]) {
                pileup, quals)) {
     if (coverage >= MIN_COVERAGE && coverage <= MAX_COVERAGE) {
       refFreq = calcRefFreq(pileup);
-      if (refFreq >= 0) {
-        printf("%f", refFreq);
+      if (refFreq > 0.0) {
+        printf("%s\t%d\t%c\t%d\t%s\t%f\n", seqName, position, base, coverage,
+               pileup, refFreq);
       }
     }
   }
