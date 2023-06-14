@@ -17,3 +17,4 @@ own README:
 * `simulation`: scripts used to create simulated reads, align them to the
   pangenome with different methods, and compare the accuracy of the different
   alignments
+* `allele-balance`: looking at reference bias based on allele balance 
