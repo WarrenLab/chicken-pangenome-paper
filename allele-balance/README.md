@@ -16,4 +16,7 @@ cpus) to sort and filter the bam in preparation for the analysis, and
 `2-calc-allele-balance.sh` (arguments are input bam and outfile) to do the
 pileup and calculate the alternate allele frequency at each het site.
 
+Finally, tabulate the output and calculate summary statistics by running
+`3-tabulate.sh`.
+
 [guenther2019]: https://doi.org/10.1371/journal.pgen.1008302
