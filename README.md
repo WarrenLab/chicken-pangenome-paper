@@ -1,10 +1,15 @@
 # chicken-pangenome-paper
-Scripts used to perform analyses in Rice et al. (2023)
+
+Scripts used to perform analyses in Rice et al. (2023) "A pangenome graph
+reference of 30 chicken genomes allows genotyping of large and complex
+structural variants."
 
 ## Introduction
-This repository contains scripts used to perform analyses in the paper
-"Paper name". It is divided into the following subdirectories, each with their
-own README:
+
+This repository contains scripts used to perform analyses in the paper "A
+pangenome graph reference of 30 chicken genomes allows genotyping of large and
+complex structural variants.". It is divided into the following subdirectories,
+each with their own README:
 
 * `genome-assembly`: scripts used to assemble genomes to use to create the
   pangenome
