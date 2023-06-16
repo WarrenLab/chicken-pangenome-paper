@@ -1,16 +1,7 @@
 """Calculate how much sequence each sample adds to the graph
 
 Given a pangenome graph in GFA format, find how much new sequence each
-sample contributes to the graph. To be exact, the algorithm is as
-follows:
-
-1. Start with either an empty graph or a graph containing a single
-   sample, depending on arguments.
-2. Go through all the samples not yet in the graph and determine how
-   much new sequence each one would add to the graph.
-3. Choose the sample that would add the most new sequence to the graph,
-   report it, and add it to the graph.
-4. Repeat 2-3 until all sequences are in the graph.
+sample contributes to the graph.
 
 The output is a TSV where the samples are reported in descending order
 of how much sequence they add to the graph, with columns sample name and
@@ -40,6 +31,7 @@ class Segment:
     seq_length: int
 
     def __init__(self, line: str):
+        """Parse a GFA S-line and store it in a Segment object"""
         splits = line.strip().split("\t")
         self.node_id = int(splits[1])
         self.seq_length = len(splits[2])
@@ -58,6 +50,7 @@ class Walk:
     nodes: list[int]
 
     def __init__(self, line):
+        """Parse a GFA W-line and store it in a Walk object"""
         # TODO: add a flag to consider the haplotype number as part of the
         # sample ID
         splits = line.strip().split("\t")
@@ -78,6 +71,21 @@ class GraphInfo:
     """maps node IDs to length of sequence in the node"""
     sample_node_sets: dict[str, set[int]]
     """maps sample IDs to set of all node IDs used by that sample"""
+
+    def __init__(self, gfa_iter: Iterable[Union[Segment, Walk]]):
+        """build a GraphInfo object out of a GFA file
+
+        Args:
+            gfa_iter: an iterable over a GFA file, as output by the
+                parse_gfa() function
+        """
+        self.node_lengths: dict[int, int] = {}
+        self.sample_node_sets: dict[str, set[int]] = defaultdict(set)
+        for entry in gfa_iter:
+            if isinstance(entry, Segment):
+                self.node_lengths[entry.node_id] = entry.seq_length
+            elif isinstance(entry, Walk):
+                self.sample_node_sets[entry.sample_id].update(entry.nodes)
 
     def __str__(self):
         return str(self.node_lengths) + "\n" + str(self.sample_node_sets)
@@ -113,18 +121,6 @@ class GraphInfo:
         return len(self.sample_node_sets) == 0
 
 
-def build_graphinfo(gfa_iter: Iterable[Union[Segment, Walk]]) -> GraphInfo:
-    """build a GraphInfo object out of a GFA file"""
-    segment_lengths: dict[int, int] = {}
-    sample_node_sets: dict[str, set[int]] = defaultdict(set)
-    for entry in gfa_iter:
-        if isinstance(entry, Segment):
-            segment_lengths[entry.node_id] = entry.seq_length
-        elif isinstance(entry, Walk):
-            sample_node_sets[entry.sample_id].update(entry.nodes)
-    return GraphInfo(segment_lengths, sample_node_sets)
-
-
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -133,7 +129,7 @@ def parse_args():
         help="remove this haplotype first,"
         " instead of the one with the most unique sequence",
     )
-    parser.add_argument("gfa", type=parse_gfa, help="gfa(.gz) file to parse")
+    parser.add_argument("gfa", type=parse_gfa, help="gfa(.gz) v1.1 file to parse")
     return parser.parse_args()
 
 
@@ -160,7 +156,7 @@ def main():
     args = parse_args()
 
     print("Reading graph...", file=stderr)
-    graph_info = build_graphinfo(args.gfa)
+    graph_info = GraphInfo(args.gfa)
 
     if args.first_haplotype:
         print(f"Removing sample {args.first_haplotype} from graph...", file=stderr)
