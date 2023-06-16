@@ -7,7 +7,7 @@
 #define MAX_PILEUP_SIZE 8001
 #define min(a, b) a < b ? a : b
 
-float calcRefFreq(char *pileup) {
+float calc_reference_frequency(char *pileup) {
   float minor_allele_count;
   char c;
 
@@ -69,19 +69,19 @@ float calcRefFreq(char *pileup) {
 int main(int argc, char *argv[]) {
   int position, coverage;
   char base;
-  float refFreq;
+  float reference_frequency;
 
-  char *seqName = malloc(MAX_SEQNAME_LENGTH * sizeof(char));
+  char *sequence_name = malloc(MAX_SEQNAME_LENGTH * sizeof(char));
   char *pileup = malloc(MAX_PILEUP_SIZE * sizeof(char));
   char *quals = malloc(MAX_PILEUP_SIZE * sizeof(char));
 
-  while (scanf("%s\t%d\t%c\t%d\t%s\t%s", seqName, &position, &base, &coverage,
-               pileup, quals) != EOF) {
+  while (scanf("%s\t%d\t%c\t%d\t%s\t%s", sequence_name, &position, &base,
+               &coverage, pileup, quals) != EOF) {
     if (coverage >= MIN_COVERAGE && coverage <= MAX_COVERAGE) {
-      refFreq = calcRefFreq(pileup);
-      if (refFreq > 0.0) {
-        printf("%s\t%d\t%c\t%d\t%s\t%f\n", seqName, position, base, coverage,
-               pileup, refFreq);
+      reference_frequency = calc_reference_frequency(pileup);
+      if (reference_frequency > 0.0) {
+        printf("%s\t%d\t%c\t%d\t%s\t%f\n", sequence_name, position, base,
+               coverage, pileup, reference_frequency);
       }
     }
   }
