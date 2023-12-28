@@ -22,4 +22,13 @@ each with their own README:
 * `simulation`: scripts used to create simulated reads, align them to the
   pangenome with different methods, and compare the accuracy of the different
   alignments
-* `allele-balance`: looking at reference bias based on allele balance 
+* `allele-balance`: looking at reference bias based on allele balance
+
+## Citation
+
+If you use any of the code in this repository in a manuscript, please cite the
+associated paper:
+
+Rice et al. (2023). "A pangenome graph reference of 30 chicken genomes allows
+genotyping of large and complex structural variants." _BMC Biology_ 21:267.
+https://doi.org/10.1186/s12915-023-01758-0
